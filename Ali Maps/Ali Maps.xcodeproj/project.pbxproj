@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		25CF23E3291ED7C000AE22C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF23E2291ED7C000AE22C0 /* AppDelegate.swift */; };
+		25CF23E5291ED7C000AE22C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF23E4291ED7C000AE22C0 /* SceneDelegate.swift */; };
+		25CF23EC291ED7C100AE22C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25CF23EB291ED7C100AE22C0 /* Assets.xcassets */; };
+		25CF23EF291ED7C200AE22C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25CF23ED291ED7C200AE22C0 /* LaunchScreen.storyboard */; };
+		25CF23FB291ED88700AE22C0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF23FA291ED88700AE22C0 /* Extensions.swift */; };
+		25CF23FD291ED8A900AE22C0 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF23FC291ED8A900AE22C0 /* MapController.swift */; };
+		25CF23FF291EE4AC00AE22C0 /* LocationRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF23FE291EE4AC00AE22C0 /* LocationRequestController.swift */; };
+		25CF2401291F103A00AE22C0 /* SearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF2400291F103A00AE22C0 /* SearchInputView.swift */; };
+		25CF2403291F226100AE22C0 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF2402291F226100AE22C0 /* SearchCell.swift */; };
+		25CF2405291F27F500AE22C0 /* ExpansionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF2404291F27F500AE22C0 /* ExpansionState.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		25CF23DF291ED7C000AE22C0 /* Ali Maps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ali Maps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		25CF23E2291ED7C000AE22C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		25CF23E4291ED7C000AE22C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		25CF23EB291ED7C100AE22C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		25CF23EE291ED7C200AE22C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		25CF23F0291ED7C200AE22C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25CF23FA291ED88700AE22C0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		25CF23FC291ED8A900AE22C0 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
+		25CF23FE291EE4AC00AE22C0 /* LocationRequestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestController.swift; sourceTree = "<group>"; };
+		25CF2400291F103A00AE22C0 /* SearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputView.swift; sourceTree = "<group>"; };
+		25CF2402291F226100AE22C0 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		25CF2404291F27F500AE22C0 /* ExpansionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionState.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		25CF23DC291ED7C000AE22C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		25CF23D6291ED7C000AE22C0 = {
+			isa = PBXGroup;
+			children = (
+				25CF23E1291ED7C000AE22C0 /* Ali Maps */,
+				25CF23E0291ED7C000AE22C0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		25CF23E0291ED7C000AE22C0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				25CF23DF291ED7C000AE22C0 /* Ali Maps.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		25CF23E1291ED7C000AE22C0 /* Ali Maps */ = {
+			isa = PBXGroup;
+			children = (
+				25CF23F9291ED86800AE22C0 /* Model */,
+				25CF23F8291ED86300AE22C0 /* View */,
+				25CF23F7291ED84000AE22C0 /* Controllers */,
+				25CF23F6291ED82800AE22C0 /* Utils */,
+				25CF23EB291ED7C100AE22C0 /* Assets.xcassets */,
+				25CF23E2291ED7C000AE22C0 /* AppDelegate.swift */,
+				25CF23E4291ED7C000AE22C0 /* SceneDelegate.swift */,
+				25CF23ED291ED7C200AE22C0 /* LaunchScreen.storyboard */,
+				25CF23F0291ED7C200AE22C0 /* Info.plist */,
+			);
+			path = "Ali Maps";
+			sourceTree = "<group>";
+		};
+		25CF23F6291ED82800AE22C0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				25CF23FA291ED88700AE22C0 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		25CF23F7291ED84000AE22C0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				25CF23FC291ED8A900AE22C0 /* MapController.swift */,
+				25CF23FE291EE4AC00AE22C0 /* LocationRequestController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		25CF23F8291ED86300AE22C0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				25CF2400291F103A00AE22C0 /* SearchInputView.swift */,
+				25CF2402291F226100AE22C0 /* SearchCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		25CF23F9291ED86800AE22C0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				25CF2404291F27F500AE22C0 /* ExpansionState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		25CF23DE291ED7C000AE22C0 /* Ali Maps */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25CF23F3291ED7C200AE22C0 /* Build configuration list for PBXNativeTarget "Ali Maps" */;
+			buildPhases = (
+				25CF23DB291ED7C000AE22C0 /* Sources */,
+				25CF23DC291ED7C000AE22C0 /* Frameworks */,
+				25CF23DD291ED7C000AE22C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Ali Maps";
+			productName = "Ali Maps";
+			productReference = 25CF23DF291ED7C000AE22C0 /* Ali Maps.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		25CF23D7291ED7C000AE22C0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					25CF23DE291ED7C000AE22C0 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+				};
+			};
+			buildConfigurationList = 25CF23DA291ED7C000AE22C0 /* Build configuration list for PBXProject "Ali Maps" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 25CF23D6291ED7C000AE22C0;
+			productRefGroup = 25CF23E0291ED7C000AE22C0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				25CF23DE291ED7C000AE22C0 /* Ali Maps */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		25CF23DD291ED7C000AE22C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25CF23EF291ED7C200AE22C0 /* LaunchScreen.storyboard in Resources */,
+				25CF23EC291ED7C100AE22C0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		25CF23DB291ED7C000AE22C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25CF23FD291ED8A900AE22C0 /* MapController.swift in Sources */,
+				25CF23E3291ED7C000AE22C0 /* AppDelegate.swift in Sources */,
+				25CF23E5291ED7C000AE22C0 /* SceneDelegate.swift in Sources */,
+				25CF2403291F226100AE22C0 /* SearchCell.swift in Sources */,
+				25CF23FB291ED88700AE22C0 /* Extensions.swift in Sources */,
+				25CF2405291F27F500AE22C0 /* ExpansionState.swift in Sources */,
+				25CF23FF291EE4AC00AE22C0 /* LocationRequestController.swift in Sources */,
+				25CF2401291F103A00AE22C0 /* SearchInputView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		25CF23ED291ED7C200AE22C0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				25CF23EE291ED7C200AE22C0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		25CF23F1291ED7C200AE22C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		25CF23F2291ED7C200AE22C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		25CF23F4291ED7C200AE22C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7SA8N5B57Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Ali Maps/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aliapps.Ali-Maps";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		25CF23F5291ED7C200AE22C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7SA8N5B57Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Ali Maps/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aliapps.Ali-Maps";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		25CF23DA291ED7C000AE22C0 /* Build configuration list for PBXProject "Ali Maps" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25CF23F1291ED7C200AE22C0 /* Debug */,
+				25CF23F2291ED7C200AE22C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25CF23F3291ED7C200AE22C0 /* Build configuration list for PBXNativeTarget "Ali Maps" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25CF23F4291ED7C200AE22C0 /* Debug */,
+				25CF23F5291ED7C200AE22C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 25CF23D7291ED7C000AE22C0 /* Project object */;
+}
