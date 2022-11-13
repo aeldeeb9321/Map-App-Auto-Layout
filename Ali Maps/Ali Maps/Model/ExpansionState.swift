@@ -11,5 +11,4 @@ enum ExpansionState{
     case NotExpanded
     case PartiallyExpanded
     case FullyExpanded
-    case ExpandToSearch
 }
