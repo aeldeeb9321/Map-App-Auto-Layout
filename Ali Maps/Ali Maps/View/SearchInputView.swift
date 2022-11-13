@@ -11,6 +11,7 @@ private let reuseIdentifier = "tvId"
 
 protocol SearchInputViewDelegate: AnyObject{
     func animateCenterMapButton(expansionState: ExpansionState, hideButton: Bool)
+    func handleSearch(withSearchText searchText: String)
 }
 
 class SearchInputView: UIView{
@@ -87,7 +88,16 @@ class SearchInputView: UIView{
         } completion: { bool in
             completion(bool)
         }
-
+    }
+    
+    private func dismissOnSearch(){
+        searchBar.showsCancelButton = false
+        searchBar.endEditing(true)
+        searchBar.text = nil
+        animateInputView(targetPostion: self.frame.origin.y + 450) { _ in
+            self.delegate?.animateCenterMapButton(expansionState: self.expansionState, hideButton: false)
+            self.expansionState = .PartiallyExpanded
+        }
     }
     //MARK: - Selectors
     @objc private func handleSwipeGesutre(sender: UISwipeGestureRecognizer){
@@ -139,6 +149,13 @@ extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
 
 //MARK: - UISearchBarDelegate
 extension SearchInputView: UISearchBarDelegate{
+    //executes when we hit that search button
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        delegate?.handleSearch(withSearchText: searchText)
+        dismissOnSearch()
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         if expansionState == .NotExpanded{
             
@@ -160,12 +177,7 @@ extension SearchInputView: UISearchBarDelegate{
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-        searchBar.endEditing(true)
-        animateInputView(targetPostion: self.frame.origin.y + 450) { _ in
-            self.delegate?.animateCenterMapButton(expansionState: self.expansionState, hideButton: false)
-            self.expansionState = .PartiallyExpanded
-        }
+        dismissOnSearch()
             
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

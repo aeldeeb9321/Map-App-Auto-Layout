@@ -74,6 +74,24 @@ class MapController: UIViewController{
 
 //MARK: - SearchInputViewDelegate
 extension MapController: SearchInputViewDelegate{
+    func handleSearch(withSearchText searchText: String) {
+        //coordinates is essentially the user location
+        guard let coordinates = locationManager.location?.coordinate else{ return }
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        searchBy(naturalLanguageQuery: searchText, region: region, coordinates: coordinates) { response, error in
+            response?.mapItems.forEach({ mapItem in
+                if let name = mapItem.name{
+                    print(name)
+                    //creating map annotations
+                    let annotation = MKPointAnnotation()
+                    annotation.title = mapItem.name
+                    annotation.coordinate = mapItem.placemark.coordinate
+                    self.mapView.addAnnotation(annotation)
+                }
+            })
+        }
+    }
+    
     func animateCenterMapButton(expansionState: ExpansionState, hideButton: Bool) {
         switch expansionState {
         case .NotExpanded:
@@ -137,11 +155,30 @@ extension MapController: CLLocationManagerDelegate{
 
 //MARK: - MapKit Helper Functions
 extension MapController{
-    func centerMapOnUserLocation(){
+    private func centerMapOnUserLocation(){
         guard let coordinates = locationManager.location?.coordinate else{ return }
         let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(coordinateRegion, animated: true)
     }
+    
+    private func searchBy(naturalLanguageQuery: String, region: MKCoordinateRegion, coordinates: CLLocationCoordinate2D, completion: @escaping(_ response: MKLocalSearch.Response?,_ error: NSError?) -> ()){
+         //creating a local search request so it shows results near you instead of around the world
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = naturalLanguageQuery
+        request.region = region
+        
+        //creating the MKLocalSearch object which takes in a local search request that we created above
+        let search = MKLocalSearch(request: request)
+        //starts the search and delivers the results of the specified completion handler.
+        search.start { response, error in
+            guard let response = response else{
+                completion(nil, error! as NSError)
+                return
+            }
+            completion(response, nil)
+        }
+    }
+    
 }
 
 //MARK: - LocationRequestControllerDelegate
