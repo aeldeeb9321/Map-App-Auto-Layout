@@ -75,6 +75,8 @@ class MapController: UIViewController{
 //MARK: - SearchInputViewDelegate
 extension MapController: SearchInputViewDelegate{
     func handleSearch(withSearchText searchText: String) {
+        //so when we have a new search we immediately remove old MKPoint annotations from a previous search
+        removeAnnotations()
         //coordinates is essentially the user location
         guard let coordinates = locationManager.location?.coordinate else{ return }
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 2000, longitudinalMeters: 2000)
@@ -176,6 +178,15 @@ extension MapController{
                 return
             }
             completion(response, nil)
+        }
+    }
+    
+    private func removeAnnotations(){
+        mapView.annotations.forEach { annotation in
+            //we casted it as an MKPointAnnoation since the user location is an MKAnnotation and we dont want to remove that.
+            if let annotation = annotation as? MKPointAnnotation{
+                mapView.removeAnnotation(annotation)
+            }
         }
     }
     
