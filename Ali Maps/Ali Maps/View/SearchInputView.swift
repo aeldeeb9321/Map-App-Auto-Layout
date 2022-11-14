@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 private let reuseIdentifier = "tvId"
 
@@ -17,8 +18,21 @@ protocol SearchInputViewDelegate: AnyObject{
 class SearchInputView: UIView{
     //MARK: - Properties
     weak var delegate: SearchInputViewDelegate?
-    
+    weak var mapController: MapController?
+    var recievedResults: [MKMapItem]?{
+        didSet{
+            guard let recievedResults = recievedResults else{ return }
+            self.searchResults = recievedResults
+        }
+    }
+    private var searchResults: [MKMapItem]?{
+        didSet{
+            //we need to reload Data or else the recieved map items wont show up in our tableView
+            self.tableView.reloadData()
+        }
+    }
     private var expansionState: ExpansionState!
+    
     private let indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
@@ -136,10 +150,19 @@ class SearchInputView: UIView{
 extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SeachCell
+        if let controller = mapController{
+            cell.delegate = controller
+        }
+        if let searchResults = searchResults{
+            cell.mapItem = searchResults[indexPath.row]
+            
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        //making sure our searchresults exists, otherwise we return 0
+        guard let searchResults = searchResults else{ return 0 }
+        return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

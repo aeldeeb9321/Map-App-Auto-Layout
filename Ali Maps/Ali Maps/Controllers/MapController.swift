@@ -29,6 +29,7 @@ class MapController: UIViewController{
     
     private lazy var searchInputView: SearchInputView = {
         let inputView = SearchInputView()
+        inputView.mapController = self 
         inputView.delegate = self
         inputView.setDimesions(height: view.frame.height, width: 0)
         return inputView
@@ -43,7 +44,7 @@ class MapController: UIViewController{
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        centerMapOnUserLocation()
+        centerMapOnUserLocation(loadAnnotations: true)
     }
     //MARK: - Helpers
     private func configureUI(){
@@ -68,9 +69,18 @@ class MapController: UIViewController{
  
     //MARK: - Selectors
     @objc private func handleCenterUserLocation(){
-        centerMapOnUserLocation()
+        centerMapOnUserLocation(loadAnnotations: false)
     }
 }
+
+//MARK: - SearchCellDelegate
+extension MapController: SearchCellDelegate{
+    func distanceFromUser(location: CLLocation) -> CLLocationDistance? {
+        guard let userLocation = locationManager.location else { return nil}
+        return userLocation.distance(from: location)
+    }
+}
+
 
 //MARK: - SearchInputViewDelegate
 extension MapController: SearchInputViewDelegate{
@@ -78,20 +88,7 @@ extension MapController: SearchInputViewDelegate{
         //so when we have a new search we immediately remove old MKPoint annotations from a previous search
         removeAnnotations()
         //coordinates is essentially the user location
-        guard let coordinates = locationManager.location?.coordinate else{ return }
-        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 2000, longitudinalMeters: 2000)
-        searchBy(naturalLanguageQuery: searchText, region: region, coordinates: coordinates) { response, error in
-            response?.mapItems.forEach({ mapItem in
-                if let name = mapItem.name{
-                    print(name)
-                    //creating map annotations
-                    let annotation = MKPointAnnotation()
-                    annotation.title = mapItem.name
-                    annotation.coordinate = mapItem.placemark.coordinate
-                    self.mapView.addAnnotation(annotation)
-                }
-            })
-        }
+       presentSearchedAnnotations(searchText: searchText)
     }
     
     func animateCenterMapButton(expansionState: ExpansionState, hideButton: Bool) {
@@ -157,10 +154,30 @@ extension MapController: CLLocationManagerDelegate{
 
 //MARK: - MapKit Helper Functions
 extension MapController{
-    private func centerMapOnUserLocation(){
+    
+    private func presentSearchedAnnotations(searchText: String){
+        guard let coordinates = locationManager.location?.coordinate else{ return }
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        searchBy(naturalLanguageQuery: searchText, region: region, coordinates: coordinates) { response, error in
+            response?.mapItems.forEach({ mapItem in
+                //creating map annotations
+                let annotation = MKPointAnnotation()
+                annotation.title = mapItem.name
+                annotation.coordinate = mapItem.placemark.coordinate
+                self.mapView.addAnnotation(annotation)
+            })
+            self.searchInputView.recievedResults = response?.mapItems
+        }
+    }
+    
+    private func centerMapOnUserLocation(loadAnnotations: Bool){
         guard let coordinates = locationManager.location?.coordinate else{ return }
         let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(coordinateRegion, animated: true)
+        
+        if loadAnnotations{
+            loadInitialSearchData(searchQuery: "Food")
+        }
     }
     
     private func searchBy(naturalLanguageQuery: String, region: MKCoordinateRegion, coordinates: CLLocationCoordinate2D, completion: @escaping(_ response: MKLocalSearch.Response?,_ error: NSError?) -> ()){
@@ -190,6 +207,10 @@ extension MapController{
         }
     }
     
+    private func loadInitialSearchData(searchQuery: String){
+        presentSearchedAnnotations(searchText: searchQuery)
+    }
+    
 }
 
 //MARK: - LocationRequestControllerDelegate
@@ -197,7 +218,7 @@ extension MapController: LocationRequestControllerDelegate{
     func handleRequestLocationAuth() {
         locationManager.requestWhenInUseAuthorization()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.centerMapOnUserLocation()
+            self.centerMapOnUserLocation(loadAnnotations: false)
         }
         
     }
