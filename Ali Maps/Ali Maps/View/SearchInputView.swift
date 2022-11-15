@@ -56,7 +56,7 @@ class SearchInputView: UIView{
         tv.rowHeight = 72
         tv.delegate = self
         tv.dataSource = self
-        tv.register(SeachCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tv.register(SearchCell.self, forCellReuseIdentifier: reuseIdentifier)
         return tv
     }()
     //MARK: - Init
@@ -149,7 +149,7 @@ class SearchInputView: UIView{
 //MARK: - UITableViewDataSource/UITableViewDelegate
 extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SeachCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SearchCell
         if let controller = mapController{
             cell.delegate = controller
         }
@@ -167,6 +167,28 @@ extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard var searchResults = searchResults else{ return }
+        let selectedMapItem = searchResults[indexPath.row]
+        //now whenever we select a cell we will have access to that map item
+        
+        // FIXME: - Refactor
+        if expansionState == .FullyExpanded {
+            self.searchBar.endEditing(true)
+            self.searchBar.showsCancelButton = false
+            animateInputView(targetPostion: self.frame.origin.y + 450) { _ in
+                self.delegate?.animateCenterMapButton(expansionState: self.expansionState, hideButton: false)
+                self.expansionState = .PartiallyExpanded
+            }
+        }
+        searchResults.remove(at: indexPath.row)
+        searchResults.insert(selectedMapItem, at: 0)
+        self.searchResults = searchResults
+        
+        let firstIndexPath = IndexPath(row: 0, section: 0)
+        //We need a reference to the cell then we can call the function
+        let cell = tableView.cellForRow(at: firstIndexPath) as! SearchCell
+        cell.animateButtonIn()
+        
     }
 }
 
@@ -203,7 +225,5 @@ extension SearchInputView: UISearchBarDelegate{
         dismissOnSearch()
             
     }
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-    }
+
 }

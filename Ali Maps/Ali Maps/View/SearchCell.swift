@@ -12,7 +12,7 @@ protocol SearchCellDelegate: AnyObject{
     func distanceFromUser(location: CLLocation) -> CLLocationDistance?
 }
 
-class SeachCell: UITableViewCell{
+class SearchCell: UITableViewCell{
     //MARK: - Properties
     weak var delegate: SearchCellDelegate?
     var mapItem: MKMapItem? {
@@ -51,6 +51,15 @@ class SeachCell: UITableViewCell{
         return label
     }()
     
+    private lazy var directionsButton: UIButton = {
+        let button = UIButton().makeButton(withTitle: "Go", titleColor: .white, buttonColor: .directionGreen(), isRounded: false)
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleGetDirections), for: .touchUpInside)
+        button.alpha = 0
+        button.setDimesions(height: 44, width: 44)
+        return button
+    }()
+    
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -76,6 +85,10 @@ class SeachCell: UITableViewCell{
         addSubview(locationInfoStack)
         locationInfoStack.centerY(inView: self)
         locationInfoStack.anchor(leading: imageContainerView.trailingAnchor, paddingLeading: 5)
+        
+        addSubview(directionsButton)
+        directionsButton.centerY(inView: self)
+        directionsButton.anchor(trailing: safeAreaLayoutGuide.trailingAnchor, paddingTrailing: 8)
     }
     
     private func configureCell(){
@@ -90,5 +103,21 @@ class SeachCell: UITableViewCell{
         //creates a string representation from the specified distance
         let distanceAsString = distanceFormatter.string(fromDistance: distanceFromUser)
         self.locationDistanceLabel.text = distanceAsString
+    }
+    
+    func animateButtonIn(){
+        //so essentially it starts small, animates in big then goes back to its original size in the completion
+        directionsButton.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut) {
+            self.directionsButton.alpha = 1
+            self.directionsButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        } completion: { _ in
+            self.directionsButton.transform = .identity
+        }
+
+    }
+    //MARK: - Selectors
+    @objc private func handleGetDirections(){
+        print("This is where we create a poly line to destination")
     }
 }
