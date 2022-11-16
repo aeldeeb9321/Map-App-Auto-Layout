@@ -13,6 +13,7 @@ private let reuseIdentifier = "tvId"
 protocol SearchInputViewDelegate: AnyObject{
     func animateCenterMapButton(expansionState: ExpansionState, hideButton: Bool)
     func handleSearch(withSearchText searchText: String)
+    func addPolyLine(forDestinationMapItem destinationMapItem: MKMapItem)
 }
 
 class SearchInputView: UIView{
@@ -166,7 +167,7 @@ extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        // tableView.deselectRow(at: indexPath, animated: true)
         guard var searchResults = searchResults else{ return }
         let selectedMapItem = searchResults[indexPath.row]
         //now whenever we select a cell we will have access to that map item
@@ -186,9 +187,10 @@ extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
         
         let firstIndexPath = IndexPath(row: 0, section: 0)
         //We need a reference to the cell then we can call the function
-        let cell = tableView.cellForRow(at: firstIndexPath) as! SearchCell
-        cell.animateButtonIn()
-        
+        if let cell = tableView.cellForRow(at: firstIndexPath) as? SearchCell{
+            cell.animateButtonIn()
+            delegate?.addPolyLine(forDestinationMapItem: selectedMapItem)
+        }
     }
 }
 

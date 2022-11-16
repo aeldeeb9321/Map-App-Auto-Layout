@@ -13,6 +13,7 @@ class MapController: UIViewController{
     //MARK: - Properties
     private var mapView: MKMapView!
     private let locationRequestController = LocationRequestController()
+    private var currentRoute: MKRoute?
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.delegate = self
@@ -62,6 +63,7 @@ class MapController: UIViewController{
         mapView = MKMapView()
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
+        mapView.delegate = self
         
         view.addSubview(mapView)
         mapView.addContstraintsToFillView(view: view)
@@ -75,6 +77,11 @@ class MapController: UIViewController{
 
 //MARK: - SearchCellDelegate
 extension MapController: SearchCellDelegate{
+    func getDirections(forMapItem mapItem: MKMapItem) {
+        //this will open maps and give the driving directions to the map item
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+    }
+    
     func distanceFromUser(location: CLLocation) -> CLLocationDistance? {
         guard let userLocation = locationManager.location else { return nil}
         return userLocation.distance(from: location)
@@ -84,6 +91,10 @@ extension MapController: SearchCellDelegate{
 
 //MARK: - SearchInputViewDelegate
 extension MapController: SearchInputViewDelegate{
+    func addPolyLine(forDestinationMapItem destinationMapItem: MKMapItem) {
+        generatePolyLine(forDestinationMapItem: destinationMapItem)
+    }
+    
     func handleSearch(withSearchText searchText: String) {
         //so when we have a new search we immediately remove old MKPoint annotations from a previous search
         removeAnnotations()
@@ -152,8 +163,39 @@ extension MapController: CLLocationManagerDelegate{
     }
 }
 
+//MARK: - MKMapViewDelegate
+extension MapController: MKMapViewDelegate{
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        //our overlay is the poly line
+        guard let route = self.currentRoute else{ return MKOverlayRenderer() }
+        let polyline = route.polyline
+        let lineRenderer = MKPolylineRenderer(overlay: polyline)
+        lineRenderer.strokeColor = .mainBlue()
+        lineRenderer.lineWidth = 10
+        return lineRenderer
+    }
+}
+
+
 //MARK: - MapKit Helper Functions
 extension MapController{
+    
+    private func generatePolyLine(forDestinationMapItem destinationMapItem: MKMapItem){
+        let request = MKDirections.Request()
+        //devices current location
+        request.source = MKMapItem.forCurrentLocation()
+        request.destination = destinationMapItem
+        request.transportType = .automobile
+        let directions = MKDirections(request: request)
+        directions.calculate { response, error in
+            guard let response = response else{ return }
+            //.routes gives an array of route objects representing the directions between the start and end points. First element is usually the fastest route
+            self.currentRoute = response.routes[0]
+            if let polyLine = self.currentRoute?.polyline{
+                self.mapView.addOverlay(polyLine)
+            }
+        }
+    }
     
     private func presentSearchedAnnotations(searchText: String){
         guard let coordinates = locationManager.location?.coordinate else{ return }

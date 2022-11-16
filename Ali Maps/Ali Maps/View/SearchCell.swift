@@ -10,6 +10,7 @@ import MapKit
 
 protocol SearchCellDelegate: AnyObject{
     func distanceFromUser(location: CLLocation) -> CLLocationDistance?
+    func getDirections(forMapItem mapItem: MKMapItem)
 }
 
 class SearchCell: UITableViewCell{
@@ -64,6 +65,7 @@ class SearchCell: UITableViewCell{
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCellComponents()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -113,11 +115,14 @@ class SearchCell: UITableViewCell{
             self.directionsButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         } completion: { _ in
             self.directionsButton.transform = .identity
+            self.directionsButton.isEnabled = true
         }
 
     }
     //MARK: - Selectors
     @objc private func handleGetDirections(){
         print("This is where we create a poly line to destination")
+        guard let mapItem = self.mapItem else{ return }
+        delegate?.getDirections(forMapItem: mapItem)
     }
 }
