@@ -21,6 +21,8 @@ class SearchInputView: UIView{
     //MARK: - Properties
     weak var delegate: SearchInputViewDelegate?
     weak var mapController: MapController?
+    var directionsEnabled = false
+    
     var recievedResults: [MKMapItem]?{
         didSet{
             guard let recievedResults = recievedResults else{ return }
@@ -115,8 +117,23 @@ class SearchInputView: UIView{
             self.expansionState = .PartiallyExpanded
         }
     }
+    
+    func disableViewInteraction(directionsEnabled: Bool){
+        self.directionsEnabled = directionsEnabled
+        if directionsEnabled{
+            tableView.allowsSelection = false
+            searchBar.isUserInteractionEnabled = false
+        }else{
+            tableView.allowsSelection = true
+            searchBar.isUserInteractionEnabled = true
+        }
+    }
     //MARK: - Selectors
     @objc private func handleSwipeGesutre(sender: UISwipeGestureRecognizer){
+        //so if directions are enable it will disable user interaction for swiping up or down so none of the code below will be executed.
+        if directionsEnabled{
+            return
+        }
         if sender.direction == .up{
             if expansionState == .NotExpanded{
                 delegate?.animateCenterMapButton(expansionState: expansionState, hideButton: false)
@@ -181,7 +198,7 @@ extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
             self.searchBar.endEditing(true)
             self.searchBar.showsCancelButton = false
             animateInputView(targetPostion: self.frame.origin.y + 450) { _ in
-                self.delegate?.animateCenterMapButton(expansionState: self.expansionState, hideButton: false)
+                self.delegate?.animateCenterMapButton(expansionState: self.expansionState, hideButton: true)
                 self.expansionState = .PartiallyExpanded
             }
         }

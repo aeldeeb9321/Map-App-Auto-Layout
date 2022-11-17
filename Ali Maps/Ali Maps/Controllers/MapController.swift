@@ -14,6 +14,8 @@ class MapController: UIViewController{
     private var mapView: MKMapView!
     private let locationRequestController = LocationRequestController()
     private var currentRoute: MKRoute?
+    private var selectedAnnotation: MKAnnotation?
+    
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.delegate = self
@@ -25,6 +27,16 @@ class MapController: UIViewController{
         button.setImage(UIImage(named: "location-arrow-flat")?.withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handleCenterUserLocation), for: .touchUpInside)
         button.setDimesions(height: 50, width: 50)
+        return button
+    }()
+    
+    private lazy var removeOverlayButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "baseline_clear_white_36pt_1x")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.backgroundColor = .systemRed
+        button.addTarget(self, action: #selector(handleRemoveOverlays), for: .touchUpInside)
+        button.setDimesions(height: 50, width: 50)
+        button.layer.cornerRadius = 25
         return button
     }()
     
@@ -57,6 +69,10 @@ class MapController: UIViewController{
         
         view.addSubview(centerMapButton)
         centerMapButton.anchor(bottom: searchInputView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, paddingBottom: 16, paddingTrailing: 16)
+        
+        view.addSubview(removeOverlayButton)
+        removeOverlayButton.anchor(leading: view.safeAreaLayoutGuide.leadingAnchor,bottom: searchInputView.topAnchor, paddingLeading: 16, paddingBottom: 260)
+        removeOverlayButton.alpha = 0
     }
     
     private func configureMapView(){
@@ -72,6 +88,25 @@ class MapController: UIViewController{
     //MARK: - Selectors
     @objc private func handleCenterUserLocation(){
         centerMapOnUserLocation(loadAnnotations: false)
+    }
+    
+    @objc private func handleRemoveOverlays(){
+        searchInputView.directionsEnabled = false
+        
+        UIView.animate(withDuration: 0.5) {
+            self.removeOverlayButton.alpha = 0
+            self.centerMapButton.alpha = 1
+        }
+
+        //so if we have an overlay then we will remove the poly line overlay and then zoomingback out
+        if mapView.overlays.count > 0{
+            self.mapView.removeOverlay(mapView.overlays[0])
+            centerMapOnUserLocation(loadAnnotations: false)
+        }
+        
+        searchInputView.disableViewInteraction(directionsEnabled: false)
+        guard let selectedAnnotation = selectedAnnotation else { return }
+        mapView.deselectAnnotation(selectedAnnotation, animated: true)
     }
 }
 
@@ -96,11 +131,19 @@ extension MapController: SearchInputViewDelegate{
             if annotation.title == mapItem.name{
                 self.mapView.selectAnnotation(annotation, animated: true)
                 self.zoomToFit(selectedAnnotation: annotation)
+                self.selectedAnnotation = annotation
+                UIView.animate(withDuration: 0.5) {
+                    self.removeOverlayButton.alpha = 1
+                    self.centerMapButton.alpha = 0
+                }
+                
             }
         }
     }
     
     func addPolyLine(forDestinationMapItem destinationMapItem: MKMapItem) {
+        searchInputView.directionsEnabled = true
+        searchInputView.disableViewInteraction(directionsEnabled: true)
         generatePolyLine(forDestinationMapItem: destinationMapItem)
     }
     
@@ -132,8 +175,10 @@ extension MapController: SearchInputViewDelegate{
             }
                 
         case .FullyExpanded:
-            UIView.animate(withDuration: 0.25) {
-                self.centerMapButton.alpha = 1
+            if !hideButton{
+                UIView.animate(withDuration: 0.25) {
+                    self.centerMapButton.alpha = 1
+                }
             }
         }
     }
@@ -189,6 +234,8 @@ extension MapController: MKMapViewDelegate{
 //MARK: - MapKit Helper Functions
 extension MapController{
     //We are setting some coordinates based on our user's annotation and the selected annotation then defining a region based on those coordinates that using it to set the region for our mapView.
+    
+    // FIXME: - Not properly zooming in, bug to fix
     private func zoomToFit(selectedAnnotation: MKAnnotation?){
         if mapView.annotations.count == 0{
             return
