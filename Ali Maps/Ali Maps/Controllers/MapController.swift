@@ -91,6 +91,15 @@ extension MapController: SearchCellDelegate{
 
 //MARK: - SearchInputViewDelegate
 extension MapController: SearchInputViewDelegate{
+    func selectedAnnotation(withMapItem mapItem: MKMapItem) {
+        mapView.annotations.forEach { annotation in
+            if annotation.title == mapItem.name{
+                self.mapView.selectAnnotation(annotation, animated: true)
+                self.zoomToFit(selectedAnnotation: annotation)
+            }
+        }
+    }
+    
     func addPolyLine(forDestinationMapItem destinationMapItem: MKMapItem) {
         generatePolyLine(forDestinationMapItem: destinationMapItem)
     }
@@ -179,6 +188,36 @@ extension MapController: MKMapViewDelegate{
 
 //MARK: - MapKit Helper Functions
 extension MapController{
+    //We are setting some coordinates based on our user's annotation and the selected annotation then defining a region based on those coordinates that using it to set the region for our mapView.
+    private func zoomToFit(selectedAnnotation: MKAnnotation?){
+        if mapView.annotations.count == 0{
+            return
+        }
+        
+        var topLeftCoordinate = CLLocationCoordinate2D(latitude: -90, longitude: 100)
+        var bottomRightCoordinate = CLLocationCoordinate2D(latitude: 90, longitude: -100)
+        
+        if let selectedAnnotation = selectedAnnotation{
+            for annotation in mapView.annotations{
+                if let userAnno = annotation as? MKUserLocation{
+                    topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, userAnno.coordinate.longitude)
+                    topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, userAnno.coordinate.latitude)
+                    bottomRightCoordinate.longitude = fmin(bottomRightCoordinate.longitude, userAnno.coordinate.longitude)
+                    bottomRightCoordinate.latitude = fmax(bottomRightCoordinate.latitude, userAnno.coordinate.latitude)
+                }
+                if annotation.title == selectedAnnotation.title{
+                    topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, annotation.coordinate.longitude)
+                    topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, annotation.coordinate.latitude)
+                    bottomRightCoordinate.longitude = fmax(bottomRightCoordinate.longitude, annotation.coordinate.longitude)
+                    bottomRightCoordinate.latitude = fmin(bottomRightCoordinate.latitude, annotation.coordinate.latitude)
+                }
+            }
+            var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: topLeftCoordinate.latitude - (topLeftCoordinate.latitude - bottomRightCoordinate.latitude) * 0.65, longitude: topLeftCoordinate.longitude + (bottomRightCoordinate.longitude - topLeftCoordinate.longitude) * 0.65), span: MKCoordinateSpan(latitudeDelta: fabs(topLeftCoordinate.latitude - bottomRightCoordinate.latitude) * 3.0, longitudeDelta: fabs(bottomRightCoordinate.longitude - topLeftCoordinate.longitude) * 3.0))
+            
+            region = mapView.regionThatFits(region)
+            mapView.setRegion(region, animated: true)
+        }
+    }
     
     private func generatePolyLine(forDestinationMapItem destinationMapItem: MKMapItem){
         let request = MKDirections.Request()

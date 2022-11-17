@@ -14,6 +14,7 @@ protocol SearchInputViewDelegate: AnyObject{
     func animateCenterMapButton(expansionState: ExpansionState, hideButton: Bool)
     func handleSearch(withSearchText searchText: String)
     func addPolyLine(forDestinationMapItem destinationMapItem: MKMapItem)
+    func selectedAnnotation(withMapItem mapItem: MKMapItem) //using a map item to select an annotation
 }
 
 class SearchInputView: UIView{
@@ -169,8 +170,11 @@ extension SearchInputView:  UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // tableView.deselectRow(at: indexPath, animated: true)
         guard var searchResults = searchResults else{ return }
+        //now whenever we select a cell we will have access to that map item in the row
         let selectedMapItem = searchResults[indexPath.row]
-        //now whenever we select a cell we will have access to that map item
+        
+        
+        delegate?.selectedAnnotation(withMapItem: selectedMapItem)
         
         // FIXME: - Refactor
         if expansionState == .FullyExpanded {
